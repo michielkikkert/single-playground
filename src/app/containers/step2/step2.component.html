@@ -8,12 +8,11 @@
 
 <br/><br/>
 
-<!--@if(resource.hasValue()) {-->
-    @if(resource.isLoading()) {
-        ... Loading!
-    }
-<!--}-->
+
+@if(resource.isLoading()) {
+    ... Loading!
+}
 
 @if(resource.error()) {
-    ... Error!
+    ... Error! -> {{ resource.error() | json}}
 }

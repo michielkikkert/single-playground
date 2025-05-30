@@ -19,7 +19,14 @@ export class Step2Component {
 
     constructor() {
         effect(() => {
-            // console.log(this.resource?.value());
+            try {
+                console.log(this.resource.value());
+            } catch (e) {
+                console.log({ e });
+            }
+            if (!this.resource.error()) {
+                console.log(this.resource.value());
+            }
         });
     }
 }
