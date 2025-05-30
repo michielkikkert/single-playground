@@ -1,0 +1,43 @@
+
+<h2>httpResource test</h2>
+<p>
+
+  <label>ID to load (using model) - automatically reloads all resources<br/>
+    <input [(ngModel)]="id">
+  </label>
+  <em>The challenge here is, how do we debounce this model signal? Type 10 and it will load 1 and 10 - not what we want?</em>
+</p>
+<h3>-- Eagerly loaded httpResource:</h3>
+<div>
+  @if(eagerResource.hasValue()){
+    <pre>{{ eagerResource.value() | json }}</pre>
+  }
+  @if(eagerResource.isLoading()){
+    ...loading...
+  }
+</div>
+
+<h3>-- lazy loaded loaded httpResource on click:</h3>
+<p>Throttle network to slow 4G to see loading state, block 'users' in network request blocking to see error state, or enter an id > 10</p>
+
+<div>
+  <button mat-flat-button (click)="loadResource()">Load lazy!</button>
+  <div style="margin-top: 10px">
+    @if(lazyResource?.hasValue()){
+      <pre>{{ lazyResource?.value() | json }}</pre>
+    }
+
+    @if(!lazyResource?.hasValue() && !lazyResource?.isLoading() && !lazyResource?.error()){
+      <span>Nothing loaded yet..</span>
+    }
+
+    @if(lazyResource?.isLoading()){
+      <span>...Loading</span>
+    }
+
+    @if(lazyResource?.error()){
+      <span>Request failed</span>
+    }
+  </div>
+</div>
+

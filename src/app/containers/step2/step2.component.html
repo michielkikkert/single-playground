@@ -1,0 +1,19 @@
+<p>step2 works!</p>
+
+<input [(ngModel)]="id">
+
+@if(resource.hasValue()) {
+    <pre>{{ resource.value() | json }}</pre>
+}
+
+<br/><br/>
+
+<!--@if(resource.hasValue()) {-->
+    @if(resource.isLoading()) {
+        ... Loading!
+    }
+<!--}-->
+
+@if(resource.error()) {
+    ... Error!
+}

@@ -1,0 +1,11 @@
+
+<div style="padding: 50px;">
+  <button mat-button [matMenuTriggerFor]="menu">Menu</button>  <span> -> </span>
+  <mat-menu #menu="matMenu" style="margin-bottom: 30px; border-bottom: 1px solid darkgrey; display: block; padding: 10px;">
+    <button mat-menu-item [routerLink]="['./']">Home</button>
+    <button mat-menu-item [routerLink]="['./step1']">Step 1</button>
+    <button mat-menu-item [routerLink]="['./step2']">Step 2</button>
+    <button mat-menu-item [routerLink]="['./step3']">Step 3</button>
+  </mat-menu>
+  <router-outlet></router-outlet>
+</div>
