@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class Step2Component {
     id = model<undefined | number>(undefined);
+    test: string | undefined =
+        "I should update after 2 secs, but I won't because zoneless";
     resource = httpResource(() =>
         this.id()
             ? `https://jsonplaceholder.typicode.com/users/${this.id()}`
@@ -23,12 +25,23 @@ export class Step2Component {
             try {
                 console.log(this.resource.value());
             } catch (e) {
-                console.log({ e });
+                console.log('Caught by try/catch in effect!', { e });
             }
             // OR
             if (!this.resource.error()) {
                 console.log(this.resource.value());
             }
         });
+
+        // effect(() => {
+        //     this.test = this.id();
+        // });
+
+        // This should not update the DOM as we are zoneless
+        // It will update if something else triggers change detection
+        setTimeout(() => {
+            this.test =
+                'I updated because something else triggered change detection!';
+        }, 2000);
     }
 }

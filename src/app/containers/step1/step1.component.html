@@ -3,7 +3,8 @@
 <p>
 
   <label>ID to load (using model) - automatically reloads all resources<br/>
-    <input [(ngModel)]="id">
+<!--    <input [(ngModel)]="id">-->
+      <input matInput [formControl]="formInput">
   </label>
   <em>The challenge here is, how do we debounce this model signal? Type 10 and it will load 1 and 10 - not what we want?</em>
 </p>

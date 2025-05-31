@@ -1,23 +1,40 @@
 import { Component, effect, inject, Injector, model } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { httpResource, HttpResourceRef } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { injectRoute } from '../../shared/functions/injectRoute';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { MatInput } from '@angular/material/input';
 
 @Component({
     selector: 'app-step1',
-    imports: [CommonModule, FormsModule, MatButton],
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatButton,
+        MatInput,
+        ReactiveFormsModule,
+    ],
     templateUrl: './step1.component.html',
     styleUrl: './step1.component.css',
 })
 export class Step1Component {
     route = injectRoute();
     injector = inject(Injector); // Needed for lazy httpResource
-    id = model<undefined | number>(undefined);
+    id = model<undefined | number>(2);
+    // Old skool debouncing still works best
+    formInput = new FormControl<undefined | number>(undefined);
+    inputSignal = toSignal(
+        this.formInput.valueChanges.pipe(
+            distinctUntilChanged(),
+            debounceTime(400),
+        ),
+    );
     eagerResource = httpResource(() =>
-        this.id()
-            ? `https://jsonplaceholder.typicode.com/todos/${this.id()}`
+        this.inputSignal()
+            ? `https://jsonplaceholder.typicode.com/todos/${this.inputSignal()}`
             : undefined,
     );
     lazyResource: HttpResourceRef<any> | undefined;
@@ -29,8 +46,8 @@ export class Step1Component {
     loadResource() {
         this.lazyResource = httpResource(
             () =>
-                this.id()
-                    ? `https://jsonplaceholder.typicode.com/users/${this.id()}`
+                this.inputSignal()
+                    ? `https://jsonplaceholder.typicode.com/users/${this.inputSignal()}`
                     : undefined,
             { injector: this.injector },
         );
