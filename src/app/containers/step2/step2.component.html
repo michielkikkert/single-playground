@@ -3,6 +3,10 @@
 <div>Test: {{ test }}</div>
 
 <input [(ngModel)]="id">
+<br/><br/>
+<div>
+    <button mat-flat-button (click)="updateTest()">Update test value</button>
+</div>
 
 @if(resource.hasValue()) {
     <pre>{{ resource.value() | json }}</pre>

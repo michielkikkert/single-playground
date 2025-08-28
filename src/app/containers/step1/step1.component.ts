@@ -5,7 +5,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { injectRoute } from '../../shared/functions/injectRoute';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged, timer } from 'rxjs';
 import { MatInput } from '@angular/material/input';
 
 @Component({
@@ -61,6 +61,10 @@ export class Step1Component {
 
         effect(() => {
             console.log(this.route());
+        });
+
+        timer(5000).subscribe(() => {
+            this.formInput.setValue(999);
         });
     }
 }
